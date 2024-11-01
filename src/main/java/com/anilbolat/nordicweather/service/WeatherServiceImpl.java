@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WeatherServiceImpl implements WeatherService {
-
+    
     private final WeatherAPIClient client;
 
-    public WeatherServiceImpl() {
-        this.client = new WeatherAPIClient();
+    public WeatherServiceImpl(WeatherAPIClient client) {
+        this.client = client;
     }
 
     @Override
