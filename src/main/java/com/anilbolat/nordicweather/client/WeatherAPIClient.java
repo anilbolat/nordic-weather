@@ -9,8 +9,7 @@ import org.springframework.web.client.RestClient;
 @Component
 public class WeatherAPIClient implements WeatherService {
 
-    private static final String URL = "{API_URL}" +
-            "{location}/" +
+    private static final String URL_PATH_TEMPLATE = "{location}/" +
             //"{date}/" +
             "{date}?" +
             "key={API_KEY}";
@@ -27,7 +26,7 @@ public class WeatherAPIClient implements WeatherService {
         RestClient client = RestClient.create();
 
         return client.get()
-                .uri(URL, configuration.getUrl(), location, date, configuration.getKey())
+                .uri(this.configuration.getUrl() + URL_PATH_TEMPLATE, location, date, configuration.getKey())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(String.class);
