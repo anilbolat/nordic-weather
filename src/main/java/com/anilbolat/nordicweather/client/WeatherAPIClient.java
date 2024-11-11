@@ -1,11 +1,13 @@
 package com.anilbolat.nordicweather.client;
 
 import com.anilbolat.nordicweather.service.WeatherService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 
+@Slf4j
 @Component
 public class WeatherAPIClient implements WeatherService {
 
@@ -22,13 +24,17 @@ public class WeatherAPIClient implements WeatherService {
 
     @Override
     public String getWeather(String location, String date) {
+        log.info("Fetching weather using weather api [{}, {}]", location, date);
         
-        RestClient client = RestClient.create();
+        RestClient client = RestClient.builder()
+                .baseUrl(this.configuration.getUrl())
+                .build();
 
         return client.get()
-                .uri(this.configuration.getUrl() + URL_PATH_TEMPLATE, location, date, configuration.getKey())
+                .uri(URL_PATH_TEMPLATE, location, date, configuration.getKey())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
+                .onStatus(new WeatherAPIResponseErrorHandler())
                 .body(String.class);
     }
 }
