@@ -17,6 +17,11 @@ public class WeatherAPIResponseErrorHandler implements ResponseErrorHandler {
         return response.getStatusCode().isError();
     }
 
+    /*
+    *
+    * 400, 401, 404, 429, 500 status codes are expected from weather api.
+    * 
+    * */
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
         if (HttpStatus.BAD_REQUEST.value() == response.getStatusCode().value()) {
@@ -26,7 +31,11 @@ public class WeatherAPIResponseErrorHandler implements ResponseErrorHandler {
         }
     }
 
-    // response body is short, so reading all once is fine.
+    /*
+    * 
+    *  response body is short, so reading all once is fine.
+    * 
+    * */
     private static String convertStreamToString(InputStream inputStream) throws IOException {
         return (inputStream != null) ? new String(inputStream.readAllBytes(), StandardCharsets.UTF_8) : "Response body is empty.";
     }
