@@ -1,6 +1,7 @@
 package com.anilbolat.nordicweather.endpoint;
 
-import com.anilbolat.nordicweather.client.exception.WeatherAPINotAuthorized;
+import com.anilbolat.nordicweather.client.exception.WeatherAPIBadRequestException;
+import com.anilbolat.nordicweather.client.exception.WeatherAPINotAvailable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +12,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class EndpointExceptionHandler {
     
-    @ExceptionHandler(WeatherAPINotAuthorized.class)
-    public ResponseEntity<ErrorMessage> handleWeatherAPINotAuthorized(Exception ex) {
+    @ExceptionHandler({ WeatherAPINotAvailable.class })
+    public ResponseEntity<ErrorMessage> handleWeatherAPINotAvailable(Exception ex) {
         log.warn(ex.getMessage());
         
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(new ErrorMessage("We cannot serve at the moment. Please try again later."));
+    }
+    
+    @ExceptionHandler(WeatherAPIBadRequestException.class)
+    public ResponseEntity<ErrorMessage> handleWeatherAPIBadRequestException(Exception ex) {
+        log.warn(ex.getMessage());
+        
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorMessage("Incorrect location or date."));
     }
 
     public record ErrorMessage(String message) {

@@ -1,10 +1,14 @@
 package com.anilbolat.nordicweather.client;
 
-import com.anilbolat.nordicweather.client.exception.WeatherAPINotAuthorized;
+import com.anilbolat.nordicweather.client.exception.WeatherAPIBadRequestException;
+import com.anilbolat.nordicweather.client.exception.WeatherAPINotAvailable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class WeatherAPIResponseErrorHandler implements ResponseErrorHandler {
 
@@ -15,30 +19,16 @@ public class WeatherAPIResponseErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
-        switch (response.getStatusCode().value()) {
-            case 400:
-                printError(response);
-                break;
-            case 401:
-                throw new WeatherAPINotAuthorized(response.getBody());
-            case 404:
-                printError(response);
-                break;
-            case 429:
-                printError(response);
-                break;
-            case 500:
-                printError(response);
-                break;
+        if (HttpStatus.BAD_REQUEST.value() == response.getStatusCode().value()) {
+            throw new WeatherAPIBadRequestException(convertStreamToString(response.getBody()));
+        } else {
+            throw new WeatherAPINotAvailable(convertStreamToString(response.getBody()));
         }
     }
 
-    // remove all above done
-    private static void printError(ClientHttpResponse response) throws IOException {
-        System.out.println(response.getStatusCode().value());
-        System.out.println(response.getStatusText());
-        System.out.println(new String(response.getBody().readAllBytes()));
-        throw new RuntimeException("implement me");
+    // response body is short, so reading all once is fine.
+    private static String convertStreamToString(InputStream inputStream) throws IOException {
+        return (inputStream != null) ? new String(inputStream.readAllBytes(), StandardCharsets.UTF_8) : "Response body is empty.";
     }
 
 }
