@@ -8,11 +8,10 @@ will help you understand how to work with 3rd party APIs, caching, and environme
 - Dates should be in the format yyyy-MM-dd. For example 2020-10-19 for October 19th, 2020 or 2017-02-03 for February 3rd, 2017.
 
 
-# remaining tasks
-- Make sure to handle errors properly. 
-  - if cache connection is down,
-  - 
+# remaining tasks 
 - Implement rate limiting to prevent abuse of your API. You can use a package like express-rate-limit if you are using Node.js or flask-limiter if you are using Python.
+- authentication - jwt
+- 
 
 # ref
 - https://roadmap.sh/projects/weather-api-wrapper-service

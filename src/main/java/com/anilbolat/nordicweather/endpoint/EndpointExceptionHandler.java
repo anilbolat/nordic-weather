@@ -1,5 +1,6 @@
 package com.anilbolat.nordicweather.endpoint;
 
+import com.anilbolat.nordicweather.cache.CacheNotAvailableException;
 import com.anilbolat.nordicweather.client.exception.WeatherAPIBadRequestException;
 import com.anilbolat.nordicweather.client.exception.WeatherAPINotAvailable;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class EndpointExceptionHandler {
     
-    @ExceptionHandler({ WeatherAPINotAvailable.class })
-    public ResponseEntity<ErrorMessage> handleWeatherAPINotAvailable(Exception ex) {
-        log.warn(ex.getMessage());
+    @ExceptionHandler({ WeatherAPINotAvailable.class, CacheNotAvailableException.class })
+    public ResponseEntity<ErrorMessage> handleServiceNotAvailable(Exception ex) {
+        log.error(ex.getMessage(), ex);
         
         return ResponseEntity
                 .status(HttpStatus.SERVICE_UNAVAILABLE)
@@ -23,7 +24,7 @@ public class EndpointExceptionHandler {
     
     @ExceptionHandler(WeatherAPIBadRequestException.class)
     public ResponseEntity<ErrorMessage> handleWeatherAPIBadRequestException(Exception ex) {
-        log.warn(ex.getMessage());
+        log.error(ex.getMessage(), ex);
         
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
