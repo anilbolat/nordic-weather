@@ -3,7 +3,7 @@
 ## Overview
 
 Nordic Weather is a Spring Boot application that provides weather data by fetching it from a 3rd party API.
-This project demonstrates how to work with 3rd party APIs, caching, and environment variables.
+This project demonstrates how to work with 3rd party APIs, caching, rate limiting and environment variables.
 
 ## Features
 
