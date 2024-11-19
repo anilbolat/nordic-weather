@@ -13,7 +13,7 @@ public class CacheService {
     
     private final RedisTemplate<String, String> redisTemplate;
     
-    @Value("${redis.expiration.timeout}")
+    @Value("${redis.expiration.timeout.minutes}")
     private long expirationTimeout;
     
     public CacheService(RedisTemplate<String, String> redisTemplate) {

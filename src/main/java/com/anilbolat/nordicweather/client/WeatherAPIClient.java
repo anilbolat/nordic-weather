@@ -12,7 +12,6 @@ import org.springframework.web.client.RestClient;
 public class WeatherAPIClient implements WeatherService {
 
     private static final String URL_PATH_TEMPLATE = "{location}/" +
-            //"{date}/" +
             "{date}?" +
             "key={API_KEY}";
     
