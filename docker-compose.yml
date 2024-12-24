@@ -4,3 +4,18 @@ services:
     image: redis:7.4.1
     ports:
       - "6379:6379"
+        
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: nordic_weather
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: madmin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
