@@ -1,9 +1,11 @@
 package com.anilbolat.nordicweather.client;
 
 import com.anilbolat.nordicweather.service.WeatherService;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestClient;
 
 
@@ -35,5 +37,10 @@ public class WeatherAPIClient implements WeatherService {
                 .retrieve()
                 .onStatus(new WeatherAPIResponseErrorHandler())
                 .body(String.class);
+    }
+
+    @PostConstruct
+    public void validateConfig() {
+        Assert.isTrue(!this.configuration.getDEFAULT_KEY().equals(this.configuration.getKey()), "Weather API key must be configured!");
     }
 }

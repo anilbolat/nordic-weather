@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "weather.api")
 public class WeatherAPIConfiguration {
+    private final String DEFAULT_KEY = "your_weather_api_key";
+    
     private String key;
     private String url;
 }

@@ -1,6 +1,4 @@
-structural-patterns/facade/
-__pycache__/
-
+*.pem
 
 #########
 target/
