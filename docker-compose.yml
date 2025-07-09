@@ -1,13 +1,16 @@
-version: '3'
+version: '3.9'
 services:
   redis:
-    image: redis:7.4.1
+    image: redis:7
+    container_name: redis-server
+    hostname: redis-server
     ports:
       - "6379:6379"
         
   postgres:
     image: postgres:15
     container_name: postgres
+    hostname: postgres
     environment:
       POSTGRES_DB: nordic_weather
       POSTGRES_USER: admin
@@ -17,5 +20,24 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  nordic-weather:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nordic-weather
+    hostname: nordic-weather
+    environment:
+      CACHE_EXPIRATION_TIMEOUT_MINUTES: 60
+      DB_URL: jdbc:postgresql://postgres:5432/nordic_weather
+      CACHE_SERVER_HOST: redis-server
+    env_file:
+      - ./.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      redis:
+        condition: service_started
+      postgres:
+        condition: service_started
 volumes:
   postgres_data:
