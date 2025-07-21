@@ -30,6 +30,9 @@ services:
       CACHE_EXPIRATION_TIMEOUT_MINUTES: 60
       DB_URL: jdbc:postgresql://postgres:5432/nordic_weather
       CACHE_SERVER_HOST: redis-server
+      RATE_LIMITING_CAPACITY: 30
+      RATE_LIMITING_TOKEN: 30
+      RATE_LIMITING_PERIOD_MINUTES: 1
     env_file:
       - ./.env
     ports:
