@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.endpoint.security.config;
+package com.anilbolat.nordicweather.security.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

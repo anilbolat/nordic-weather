@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.endpoint.security.user;
+package com.anilbolat.nordicweather.security.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

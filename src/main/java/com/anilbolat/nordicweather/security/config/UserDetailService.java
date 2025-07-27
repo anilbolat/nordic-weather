@@ -1,6 +1,6 @@
-package com.anilbolat.nordicweather.endpoint.security.config;
+package com.anilbolat.nordicweather.security.config;
 
-import com.anilbolat.nordicweather.endpoint.security.user.UserRepository;
+import com.anilbolat.nordicweather.security.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

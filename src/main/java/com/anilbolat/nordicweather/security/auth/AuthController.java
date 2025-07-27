@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.endpoint.security.auth;
+package com.anilbolat.nordicweather.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

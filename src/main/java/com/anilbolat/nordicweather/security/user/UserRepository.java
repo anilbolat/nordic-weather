@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.endpoint.security.user;
+package com.anilbolat.nordicweather.security.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

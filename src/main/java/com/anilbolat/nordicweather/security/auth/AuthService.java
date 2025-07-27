@@ -1,8 +1,8 @@
-package com.anilbolat.nordicweather.endpoint.security.auth;
+package com.anilbolat.nordicweather.security.auth;
 
-import com.anilbolat.nordicweather.endpoint.security.config.JwtService;
-import com.anilbolat.nordicweather.endpoint.security.user.User;
-import com.anilbolat.nordicweather.endpoint.security.user.UserRepository;
+import com.anilbolat.nordicweather.security.config.JwtService;
+import com.anilbolat.nordicweather.security.user.User;
+import com.anilbolat.nordicweather.security.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

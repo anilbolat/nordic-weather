@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.endpoint.security.user;
+package com.anilbolat.nordicweather.security.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
