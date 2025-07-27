@@ -22,7 +22,7 @@ public class SecurityConfig {
             "/api/v1/weather/locations"
     };
 
-    private final JwtAuthFilter jwtAuthFilter;
+    private final JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -32,7 +32,7 @@ public class SecurityConfig {
                         authorizeHttpRequest.requestMatchers(AUTH_WHITELIST).permitAll().anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> 
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }

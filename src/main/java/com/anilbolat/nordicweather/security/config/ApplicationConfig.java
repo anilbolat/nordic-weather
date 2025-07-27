@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserDetailService userDetailService;
+    private final CustomUserDetailService customUserDetailService;
 
     @Bean
     public BCryptPasswordEncoder bcryptPasswordEncoder() {
@@ -22,7 +22,7 @@ public class ApplicationConfig {
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
         AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
-        auth.userDetailsService(userDetailService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(customUserDetailService).passwordEncoder(bCryptPasswordEncoder);
         return auth.build();
     }
 

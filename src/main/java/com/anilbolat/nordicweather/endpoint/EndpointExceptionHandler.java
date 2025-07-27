@@ -4,9 +4,11 @@ import com.anilbolat.nordicweather.cache.CacheNotAvailableException;
 import com.anilbolat.nordicweather.client.exception.WeatherAPIBadRequestException;
 import com.anilbolat.nordicweather.client.exception.WeatherAPINotAvailable;
 import com.anilbolat.nordicweather.endpoint.ratelimiting.RateLimitExceededException;
+import com.anilbolat.nordicweather.security.auth.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,7 +18,7 @@ public class EndpointExceptionHandler {
     
     @ExceptionHandler({ WeatherAPINotAvailable.class, CacheNotAvailableException.class })
     public ResponseEntity<ErrorMessage> handleServiceNotAvailable(Exception ex) {
-        log.error(ex.getMessage(), ex);
+        log.error(ex.getMessage());
         
         return ResponseEntity
                 .status(HttpStatus.SERVICE_UNAVAILABLE)
@@ -25,7 +27,7 @@ public class EndpointExceptionHandler {
     
     @ExceptionHandler(WeatherAPIBadRequestException.class)
     public ResponseEntity<ErrorMessage> handleWeatherAPIBadRequestException(Exception ex) {
-        log.error(ex.getMessage(), ex);
+        log.error(ex.getMessage());
         
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -34,14 +36,32 @@ public class EndpointExceptionHandler {
     
     @ExceptionHandler(RateLimitExceededException.class)
     public ResponseEntity<ErrorMessage> handleRateLimitExceededException(Exception ex) {
-        log.error(ex.getMessage(), ex);
+        log.error(ex.getMessage());
         
         return ResponseEntity
                 .status(HttpStatus.TOO_MANY_REQUESTS)
                 .body(new ErrorMessage("Too many requests! Please try again later."));
     }
 
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorMessage> handleAuthenticationException(Exception ex) {
+        log.error(ex.getMessage());
+
+        return ResponseEntity.
+                status(HttpStatus.FORBIDDEN)
+                .body(new ErrorMessage(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorMessage> handleUserAlreadyExistsException(Exception ex) {
+        log.error(ex.getMessage());
+
+        return ResponseEntity.
+                status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorMessage(ex.getMessage()));
+    }
+
     public record ErrorMessage(String message) {
     }
-    
+
 }

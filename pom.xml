@@ -175,7 +175,7 @@
             </plugin>
 
             <!-- grpc -->
-            <plugin>
+            <!--<plugin>
                 <groupId>io.github.ascopes</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>3.4.2</version>
@@ -198,7 +198,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
 
         </plugins>
     </build>

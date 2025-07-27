@@ -16,8 +16,6 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    // Line 5: This is the secret key used to sign JWT tokens. 
-    // This should be carefully protected, it is not something that we can share or expose publicly.
     @Value("${jwt.secret}")
     private String secret;
 
@@ -30,19 +28,30 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String jwtToken) {
-        return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(jwtToken).getPayload();
+    public boolean validateToken(String jwtToken, UserDetails userDetails) {
+        final String email = extractEmail(jwtToken);
+        return email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken);
+    }
+
+    public String generateToken(User u) {
+        return createToken(u.getEmail());
+    }
+
+    private String createToken(String email) {
+        int expireTimeInMilis = 1000 * 60 * 60 * 10;  // 10h
+        
+        return Jwts.builder()
+                .subject(email)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expireTimeInMilis))
+                .signWith(getSigningKey())
+                .compact();
     }
 
     private SecretKey getSigningKey() {
         //byte [] bytes = Decoders.BASE64.decode(secret);
         byte [] bytes = new SecretKeySpec(secret.getBytes(), Jwts.SIG.HS256.getId()).getEncoded();
         return Keys.hmacShaKeyFor(bytes);
-    }
-
-    public boolean validateToken(String jwtToken, UserDetails userDetails) {
-        final String email = extractEmail(jwtToken);
-        return email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken);
     }
 
     private boolean isTokenExpired(String jwtToken) {
@@ -53,17 +62,8 @@ public class JwtService {
         return extractClaim(jwtToken, Claims::getExpiration);
     }
 
-    public String generateToken(User u) {
-        return createToken(u.getEmail());
-    }
-
-    private String createToken(String email) {
-        return Jwts.builder()
-                .subject(email)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(getSigningKey())
-                .compact();
+    private Claims extractAllClaims(String jwtToken) {
+        return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(jwtToken).getPayload();
     }
 
 }

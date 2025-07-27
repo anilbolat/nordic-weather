@@ -10,6 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -20,6 +22,12 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void register(RegisterRequest registerRequest) {
+        Optional<User> userExist = userRepository.findByEmail(registerRequest.getEmail());
+        if (userExist.isPresent()) {
+            var msg = String.format("User [%s] already exists", registerRequest.getEmail());
+            throw new UserAlreadyExistsException(msg);
+        }
+
         User u = User.builder()
                 .email(registerRequest.getEmail())
                 .password(bCryptPasswordEncoder.encode(registerRequest.getPassword()))
