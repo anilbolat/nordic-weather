@@ -1,6 +1,6 @@
 package com.anilbolat.nordicweather.security.auth;
 
-import com.anilbolat.nordicweather.security.config.JwtService;
+import com.anilbolat.nordicweather.security.config.jwt.JwtService;
 import com.anilbolat.nordicweather.security.user.User;
 import com.anilbolat.nordicweather.security.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,7 +38,9 @@ public class AuthService {
     }
 
     public String login(LoginRequest loginRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
 
         User u = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new EntityNotFoundException("User not found"));
 

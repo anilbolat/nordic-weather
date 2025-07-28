@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.security.config;
+package com.anilbolat.nordicweather.security.config.jwt;
 
 import com.anilbolat.nordicweather.security.user.User;
 import io.jsonwebtoken.Claims;
