@@ -2,39 +2,60 @@ package com.anilbolat.nordicweather.security.config.jwt;
 
 import com.anilbolat.nordicweather.security.user.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.lang.Function;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
 
+@Slf4j
 @Service
 public class JwtService {
 
     @Value("${jwt.secret}")
     private String secret;
 
-    public String extractEmail(String jwtToken) {
-        return extractClaim(jwtToken, Claims::getSubject);
+    public String getJwtFromRequest(HttpServletRequest req) {
+        String bearer = req.getHeader("Authorization");
+        if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
+            return bearer.substring(7);
+        }
+        return null;
     }
 
-    public <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(jwtToken);
-        return claimsResolver.apply(claims);
+    public String extractEmail(String jwtToken) {
+        try {
+            return extractClaim(jwtToken, Claims::getSubject);
+        } catch (Exception ex) {
+            log.warn("Exception occurred while extracting claims.", ex);
+            return null;
+        }
     }
 
     public boolean validateToken(String jwtToken, UserDetails userDetails) {
         final String email = extractEmail(jwtToken);
-        return email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken);
+        return email != null && email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken);
     }
 
     public String generateToken(User u) {
         return createToken(u.getEmail());
+    }
+
+    public boolean isTokenExpired(String jwtToken) {
+        Date expirationDate = extractExpiration(jwtToken);
+        if (expirationDate != null) {
+            return expirationDate.before(new Date());
+        }
+        return true;
     }
 
     private String createToken(String email) {
@@ -54,16 +75,21 @@ public class JwtService {
         return Keys.hmacShaKeyFor(bytes);
     }
 
-    private boolean isTokenExpired(String jwtToken) {
-        return extractExpiration(jwtToken).before(new Date());
-    }
-
     private Date extractExpiration(String jwtToken) {
-        return extractClaim(jwtToken, Claims::getExpiration);
+        try {
+            return extractClaim(jwtToken, Claims::getExpiration);
+        } catch (Exception ex) {
+            log.warn("Exception occurred while extracting claims.", ex);
+            return null;
+        }
     }
 
-    private Claims extractAllClaims(String jwtToken) {
+    private <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver) throws JwtException, IllegalArgumentException {
+        final Claims claims = extractAllClaims(jwtToken);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String jwtToken) throws JwtException, IllegalArgumentException {
         return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(jwtToken).getPayload();
     }
-
 }
