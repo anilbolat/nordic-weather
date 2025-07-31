@@ -2,52 +2,68 @@
 
 ## Overview
 
-Nordic Weather is a Spring Boot application that provides weather data by fetching it from a 3rd party API.
-This project demonstrates how to work with 3rd party APIs, caching, rate limiting and environment variables.
+**Nordic Weather** is a secure, rate-limited weather data API built with **Spring Boot**. 
+It fetches weather data from the [Visual Crossing API](https://www.visualcrossing.com/weather-api), 
+supports **JWT-based authentication**, uses **Redis** for caching, and applies **Bucket4j** for rate limiting.
 
-## Features
+This project demonstrates how to securely integrate third-party APIs into a Spring application with proper exception handling,
+rate limiting, caching strategies, and user authentication.
 
-- Fetch weather data from a 3rd party API
-- Cache weather data using Redis
-- Rate limiting to prevent abuse
-- Exception handling for various error scenarios
+---
 
-## Technologies Used
+## 🚀 Features
+
+- Fetch weather data via third-party API (Visual Crossing)
+- JWT-based user registration and login
+- Redis-backed caching
+- Bucket4j rate limiting
+- Exception handling
+- Configurable with environment variables or properties
+- Clean architecture using Spring Boot best practices
+
+---
+
+## 🛠️ Technologies Used
 
 - Java
-- Spring Boot
-- Redis
+- Spring (Spring Boot, Spring Security)
 - Maven
-- Bucket4j (for rate limiting)
+- Bucket4j (rate limiting)
+- Redis (cache)
+- PostgreSQL (database)
+- JWT (authentication)
 
-# 3rd party weather API
-- https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/[location]/[date1]/[date2]?key=YOUR_API_KEY
-- Dates should be in the format yyyy-MM-dd. For example 2020-10-19 for October 19th, 2020 or 2017-02-03 for February 3rd, 2017.
+---
 
-## Getting Started
+## ⚙️ Getting Started
 
 ### Prerequisites
 
-- Java 17 or higher
-- Maven 3.6.0 or higher
+- Java
+- Maven
 - Redis server
+- PostgreSQL server
+- A Visual Crossing API key
+
+---
 
 ### Installation
 
-1. Clone the repository:
-    ```sh
-    git clone git@github.com:anilbolat/nordic-weather.git
-    cd nordic-weather
-    ```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/anilbolat/nordic-weather.git
+   cd nordic-weather
+   ```
 
 2. Install dependencies:
     ```sh
     mvn clean install
     ```
 
-3. Set up environment variables:
-    - Add your 3rd party API key into resources/application.properties file.
-
+3. Set your weather API key into environment variables or edit application.properties:
+    ```yaml
+    weather.api.key=${WEATHER_API_KEY:your_weather_api_key}
+    ```
 
 4. Run the application:
     ```sh
@@ -56,36 +72,71 @@ This project demonstrates how to work with 3rd party APIs, caching, rate limitin
 
 ## API Endpoints
 
+### Authentication
+
+#### Register
+- **URL:** `POST /api/v1/auth/register`
+- **Request Body:**
+    ```json
+    {
+      "email": "exampleEmail",
+      "password": "examplePassword",
+      "firstName": "exampleFirstName",
+      "lastName": "exampleLastName"
+    }
+    ```
+- **Response:**
+   - `201 Created`: User successfully registered
+   - `400 Bad Request`: Invalid input or Already authenticated
+
+
+#### Login
+- **URL:** `POST /api/v1/auth/login`
+- **Request Body:**
+    ```json
+    {
+      "email": "exampleEmail",
+      "password": "examplePassword"
+    }
+    ```
+- **Response:**
+   - `200 OK`: Returns a JWT
+   - `401 Unauthorized`: Invalid credentials
+
+
 ### Get Weather
 
 - **URL:** `/api/v1/weather`
 - **Method:** `GET`
 - **Query Parameters:**
-    - `location` (required): The location for which to fetch the weather.
-    - `date` (required): The date for which to fetch the weather (format: yyyy-MM-dd).
+   - `location` (required): e.g. `Tampere`
+   - `date` (required): `2025-08-14` (format: yyyy-MM-dd)
 - **Response:**
-    - `200 OK`: Returns the weather data.
-    - `400 Bad Request`: Incorrect location or date.
-    - `429 Too Many Requests`: Rate limit exceeded.
-    - `503 Service Unavailable`: Service not available.
+   - `200 OK`: Returns the weather data.
+   - `400 Bad Request`: Invalid location or date.
+   - `429 Too Many Requests`: Rate limit exceeded.
+   - `503 Service Unavailable`: Service not available.
 
 Example request:
 ```sh
-curl -X GET "http://localhost:8080/api/v1/weather?location=Helsinki&date=2023-10-19"
+curl -X GET "http://localhost:8080/api/v1/weather?location=Tampere&date=2025-08-14"
 ```
 
-## Exception Handling
-- 503 Service Unavailable: When the weather API or cache is not available.
+## 🚫 Exception Handling
 - 400 Bad Request: When the request to the weather API is malformed.
+- 401 Unauthorized (invalid or missing token)
 - 429 Too Many Requests: When the request rate limit is exceeded.
+- 503 Service Unavailable: When the weather API or cache is not available.
 
 ## Rate Limiting
-- The application uses [Bucket4j](https://github.com/bucket4j/bucket4j) for rate limiting. The current configuration allows 10 requests per minute.
+- The application uses [Bucket4j](https://github.com/bucket4j/bucket4j) for rate limiting. 
+The default configuration allows 30 requests per minute.
 
-## Remaining Tasks
-- Implement JWT authentication
-- Tests
-  - test containers
+## 🧩 Roadmap
+- Add OpenAPI doc
+- Implement /locations to show user's saved locations after login
+- Implement refresh token
+- Add testcontainers-based integration tests
 
 ## References
 - [Weather API Wrapper Service Roadmap](https://roadmap.sh/projects/weather-api-wrapper-service)
