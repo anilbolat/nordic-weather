@@ -1,7 +1,7 @@
-package com.anilbolat.nordicweather.service;
+package com.anilbolat.nordicweather.weather;
 
-import com.anilbolat.nordicweather.cache.CacheService;
-import com.anilbolat.nordicweather.client.WeatherAPIClient;
+import com.anilbolat.nordicweather.weather.cache.CacheService;
+import com.anilbolat.nordicweather.weather.client.WeatherAPIClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

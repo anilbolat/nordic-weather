@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.endpoint.ratelimiting;
+package com.anilbolat.nordicweather.ratelimiting;
 
 import lombok.Getter;
 import lombok.Setter;

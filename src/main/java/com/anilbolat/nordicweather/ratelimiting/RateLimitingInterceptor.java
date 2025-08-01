@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.endpoint.ratelimiting;
+package com.anilbolat.nordicweather.ratelimiting;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.BandwidthBuilder;

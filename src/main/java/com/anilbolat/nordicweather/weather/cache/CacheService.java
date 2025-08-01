@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.cache;
+package com.anilbolat.nordicweather.weather.cache;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

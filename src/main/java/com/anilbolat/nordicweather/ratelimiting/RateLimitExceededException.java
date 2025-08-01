@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.endpoint.ratelimiting;
+package com.anilbolat.nordicweather.ratelimiting;
 
 public class RateLimitExceededException extends RuntimeException {
     

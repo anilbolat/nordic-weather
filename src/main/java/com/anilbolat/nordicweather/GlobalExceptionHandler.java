@@ -1,9 +1,9 @@
-package com.anilbolat.nordicweather.endpoint;
+package com.anilbolat.nordicweather;
 
-import com.anilbolat.nordicweather.cache.CacheNotAvailableException;
-import com.anilbolat.nordicweather.client.exception.WeatherAPIBadRequestException;
-import com.anilbolat.nordicweather.client.exception.WeatherAPINotAvailable;
-import com.anilbolat.nordicweather.endpoint.ratelimiting.RateLimitExceededException;
+import com.anilbolat.nordicweather.weather.cache.CacheNotAvailableException;
+import com.anilbolat.nordicweather.weather.client.exception.WeatherAPIBadRequestException;
+import com.anilbolat.nordicweather.weather.client.exception.WeatherAPINotAvailable;
+import com.anilbolat.nordicweather.ratelimiting.RateLimitExceededException;
 import com.anilbolat.nordicweather.security.auth.AlreadyAuthenticatedException;
 import com.anilbolat.nordicweather.security.auth.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class EndpointExceptionHandler {
+public class GlobalExceptionHandler {
     
     @ExceptionHandler({ WeatherAPINotAvailable.class, CacheNotAvailableException.class })
     public ResponseEntity<ErrorMessage> handleServiceNotAvailable(Exception ex) {

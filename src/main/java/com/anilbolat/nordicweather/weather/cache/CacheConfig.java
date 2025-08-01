@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.cache;
+package com.anilbolat.nordicweather.weather.cache;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

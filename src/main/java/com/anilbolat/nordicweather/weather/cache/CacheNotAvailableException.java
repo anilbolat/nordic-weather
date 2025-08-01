@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.cache;
+package com.anilbolat.nordicweather.weather.cache;
 
 public class CacheNotAvailableException extends RuntimeException {
     

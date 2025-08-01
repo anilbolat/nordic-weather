@@ -1,6 +1,6 @@
-package com.anilbolat.nordicweather.client;
+package com.anilbolat.nordicweather.weather.client;
 
-import com.anilbolat.nordicweather.service.WeatherService;
+import com.anilbolat.nordicweather.weather.WeatherService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

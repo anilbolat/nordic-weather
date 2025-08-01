@@ -1,6 +1,5 @@
-package com.anilbolat.nordicweather.endpoint;
+package com.anilbolat.nordicweather.weather;
 
-import com.anilbolat.nordicweather.service.WeatherServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/weather")
 @Slf4j
-public class WeatherEndpoint {
+public class WeatherController {
     
     private final WeatherServiceImpl weatherService;
 
-    public WeatherEndpoint(WeatherServiceImpl weatherService) {
+    public WeatherController(WeatherServiceImpl weatherService) {
         this.weatherService = weatherService;
     }
 

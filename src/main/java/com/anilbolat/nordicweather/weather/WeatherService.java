@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.service;
+package com.anilbolat.nordicweather.weather;
 
 
 public interface WeatherService {

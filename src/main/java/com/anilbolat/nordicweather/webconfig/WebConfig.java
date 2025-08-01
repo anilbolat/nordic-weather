@@ -1,6 +1,6 @@
-package com.anilbolat.nordicweather.endpoint;
+package com.anilbolat.nordicweather.webconfig;
 
-import com.anilbolat.nordicweather.endpoint.ratelimiting.RateLimitingInterceptor;
+import com.anilbolat.nordicweather.ratelimiting.RateLimitingInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.client.exception;
+package com.anilbolat.nordicweather.weather.client.exception;
 
 
 public class WeatherAPIBadRequestException extends RuntimeException {

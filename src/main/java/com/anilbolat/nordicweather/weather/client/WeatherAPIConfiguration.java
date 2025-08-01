@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.client;
+package com.anilbolat.nordicweather.weather.client;
 
 import lombok.Getter;
 import lombok.Setter;

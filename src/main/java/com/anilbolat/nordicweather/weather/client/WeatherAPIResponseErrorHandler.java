@@ -1,7 +1,7 @@
-package com.anilbolat.nordicweather.client;
+package com.anilbolat.nordicweather.weather.client;
 
-import com.anilbolat.nordicweather.client.exception.WeatherAPIBadRequestException;
-import com.anilbolat.nordicweather.client.exception.WeatherAPINotAvailable;
+import com.anilbolat.nordicweather.weather.client.exception.WeatherAPIBadRequestException;
+import com.anilbolat.nordicweather.weather.client.exception.WeatherAPINotAvailable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
