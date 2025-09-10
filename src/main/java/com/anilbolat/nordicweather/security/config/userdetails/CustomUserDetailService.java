@@ -1,9 +1,8 @@
-package com.anilbolat.nordicweather.security.config;
+package com.anilbolat.nordicweather.security.config.userdetails;
 
-import com.anilbolat.nordicweather.security.user.UserRepository;
+import com.anilbolat.nordicweather.entity.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,10 +19,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .map(user -> User.builder()
-                        .username(user.getEmail())
-                        .password(user.getPassword())
-                        .build())
+                .map(CustomUserDetails::new)
                 .orElseThrow(() -> {
                     var msg = String.format("User not found [%s]", email);
                     log.warn(msg);

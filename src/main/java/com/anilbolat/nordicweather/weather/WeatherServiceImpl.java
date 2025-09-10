@@ -20,6 +20,8 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public String getWeather(String location, String date) {
+        log.info("Getting weather for [{}, {}]", location, date);
+
         String weather = this.cacheService.getFromCache(location, date);
         if (weather == null) {
             log.info("Not found in cache, [{}, {}]", location, date);

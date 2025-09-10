@@ -1,4 +1,4 @@
-package com.anilbolat.nordicweather.webconfig;
+package com.anilbolat.nordicweather.security.config;
 
 import lombok.Getter;
 import lombok.Setter;

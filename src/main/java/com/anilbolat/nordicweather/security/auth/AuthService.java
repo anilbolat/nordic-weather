@@ -1,8 +1,8 @@
 package com.anilbolat.nordicweather.security.auth;
 
 import com.anilbolat.nordicweather.security.config.jwt.JwtService;
-import com.anilbolat.nordicweather.security.user.User;
-import com.anilbolat.nordicweather.security.user.UserRepository;
+import com.anilbolat.nordicweather.entity.user.User;
+import com.anilbolat.nordicweather.entity.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,7 +42,9 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );
 
-        User u = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User u = userRepository
+                .findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         return jwtService.generateToken(u);
     }

@@ -1,5 +1,6 @@
 package com.anilbolat.nordicweather.security.config;
 
+import com.anilbolat.nordicweather.security.config.userdetails.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

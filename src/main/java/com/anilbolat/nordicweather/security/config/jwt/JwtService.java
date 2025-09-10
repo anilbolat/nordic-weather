@@ -1,6 +1,6 @@
 package com.anilbolat.nordicweather.security.config.jwt;
 
-import com.anilbolat.nordicweather.security.user.User;
+import com.anilbolat.nordicweather.entity.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

@@ -1,5 +1,6 @@
 package com.anilbolat.nordicweather;
 
+import com.anilbolat.nordicweather.user.UserLocationDeleteException;
 import com.anilbolat.nordicweather.weather.cache.CacheNotAvailableException;
 import com.anilbolat.nordicweather.weather.client.exception.WeatherAPIBadRequestException;
 import com.anilbolat.nordicweather.weather.client.exception.WeatherAPINotAvailable;
@@ -68,6 +69,15 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorMessage(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserLocationDeleteException.class)
+    public ResponseEntity<ErrorMessage> handleUserLocationDeleteException(Exception ex) {
+        log.error(ex.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorMessage(ex.getMessage()));
     }
 

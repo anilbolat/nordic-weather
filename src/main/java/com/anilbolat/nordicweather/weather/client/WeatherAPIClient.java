@@ -25,7 +25,7 @@ public class WeatherAPIClient implements WeatherService {
 
     @Override
     public String getWeather(String location, String date) {
-        log.info("Fetching weather using weather api [{}, {}]", location, date);
+        log.info("Fetching weather using weather API [{}, {}]", location, date);
         
         RestClient client = RestClient.builder()
                 .baseUrl(this.configuration.getUrl())
